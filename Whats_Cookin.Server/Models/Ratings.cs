@@ -28,6 +28,6 @@ namespace Whats_Cookin.Server.Models
 
         // Navigation Properties
         [ForeignKey("UserId")]
-        public Users User { get; set; }
+        public Users? User { get; set; }
     }
 }

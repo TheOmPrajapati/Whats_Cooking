@@ -12,8 +12,8 @@ using Whats_Cookin.Server;
 namespace Whats_Cookin.Server.Migrations
 {
     [DbContext(typeof(ServerContext))]
-    [Migration("20250320071751_Hoja")]
-    partial class Hoja
+    [Migration("20250320181629_V1")]
+    partial class V1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,8 @@ namespace Whats_Cookin.Server.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(2)
+                        .HasColumnType("decimal(2,2)");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");

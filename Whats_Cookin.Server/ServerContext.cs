@@ -8,6 +8,12 @@ namespace Whats_Cookin.Server
         public ServerContext(DbContextOptions<ServerContext> options):base(options) 
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Users>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+        }
         public DbSet<Users> Users {  get; set; }
         public DbSet<Restaurants> Restaurants { get; set; }
         public DbSet<Ratings> Ratings { get; set; }

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Whats_Cookin.Server.Models;
 
 namespace Whats_Cookin.Server.Controllers
@@ -13,12 +16,23 @@ namespace Whats_Cookin.Server.Controllers
             _db = db;
         }
 
+
+        private static bool isValidPinCode(string str)
+        {
+            string strRegex = @"^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(str))
+                return (true);
+            else
+                return (false);
+        }
         [HttpPost("register")]
+        [Authorize(Roles = "RestaurantOwner")]
         public IActionResult Register(Restaurants obj)
         {
             if (obj != null)
             {
-                if (obj.Pincode.ToString().Length != 6)
+                if (!isValidPinCode(obj.Pincode.ToString().Trim()))
                 {
                     ModelState.AddModelError("Pincode", "Invalid Pincode");
                 }
@@ -44,6 +58,7 @@ namespace Whats_Cookin.Server.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Customer")]
         public IActionResult Index()
         {
             var restaurants = _db.Restaurants.Select(

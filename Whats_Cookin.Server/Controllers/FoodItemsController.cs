@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Whats_Cookin.Server.Models;
 
@@ -16,6 +17,7 @@ namespace Whats_Cookin.Server.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             var itemslist = _db.Food_Items.ToList();
@@ -24,6 +26,7 @@ namespace Whats_Cookin.Server.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize]
         public IActionResult Register(Food_Items obj)
         {
             if (obj != null && obj.Price.Equals(0))
